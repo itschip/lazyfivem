@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os/exec"
 	"sync"
@@ -12,10 +13,12 @@ import (
 
 var mu sync.Mutex
 var Scanner bufio.Scanner
+var CfxCmd *exec.Cmd
+var Writer io.WriteCloser
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
   if v == nil || v.Name() == "side" {
-    _, err := g.SetCurrentView("main")
+    _, err := g.SetCurrentView("command")
     return err
   }
 
@@ -64,6 +67,27 @@ func onSideEnter(g *gocui.Gui, v *gocui.View) error {
   return nil
 }
 
+func executeCommand(g *gocui.Gui, v *gocui.View) error {
+  var err error
+  v.Rewind()
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  if v.Buffer() != "" {
+    io.WriteString(Writer, v.Buffer())
+  }
+
+  v.Clear()
+
+  if err !=  nil {
+    return err
+  }
+
+
+  return nil
+}
+
 
 func keybinds(g *gocui.Gui) error {
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
@@ -71,12 +95,12 @@ func keybinds(g *gocui.Gui) error {
 	}
 
   // Next View
-	if err := g.SetKeybinding("main", gocui.KeyCtrlSpace, gocui.ModNone, nextView); err != nil {
+	if err := g.SetKeybinding("side", gocui.KeyTab, gocui.ModNone, nextView); err != nil {
 		return err
 	}
 
   // Next View
-	if err := g.SetKeybinding("side", gocui.KeyCtrlSpace, gocui.ModNone, nextView); err != nil {
+	if err := g.SetKeybinding("command", gocui.KeyTab, gocui.ModNone, nextView); err != nil {
 		return err
 	}
 
@@ -96,20 +120,27 @@ func keybinds(g *gocui.Gui) error {
 	}
 
 
+  // Command enter
+	if err := g.SetKeybinding("command", gocui.KeyEnter, gocui.ModNone, executeCommand); err != nil {
+		return err
+	}
 
   return nil
 }
 
 func startFxServer(profile string, g *gocui.Gui) {
   if profile == "NPWD Server" {
-    cmd := exec.Command("X:/ServerFX/starter.bat")
-    r, _ := cmd.StdoutPipe()
-    cmd.Stderr = cmd.Stdout
+    CfxCmd = exec.Command("X:/ServerFX/starter.bat")
+    Writer, _ = CfxCmd.StdinPipe()
+
+    r, _ := CfxCmd.StdoutPipe()
+
+    CfxCmd.Stderr = CfxCmd.Stdout
     Scanner = *bufio.NewScanner(r)
 
     go listen(g, &Scanner)
 
-    err := cmd.Start()
+    err := CfxCmd.Start()
     if err != nil {
       panic(err)
     }
@@ -190,6 +221,7 @@ func layout(g *gocui.Gui) error {
 
     c.Title = "Command"
     c.Editable = true
+    g.Cursor = true
   }
 
 	return nil
@@ -220,47 +252,3 @@ func updateFxServer(g *gocui.Gui, line string) {
     return nil
   })
 }
-
-/*func fxServer(g *gocui.Gui) {
-	cmd := exec.Command("X:/ServerFX/starter.bat")
-	r, _ := cmd.StdoutPipe()
-	cmd.Stderr = cmd.Stdout
-
-  done := make(chan struct{})
-
-	scanner := bufio.NewScanner(r)
-
-
-  go func() {
-    for scanner.Scan() {
-      line := scanner.Text()
-     g.Update(func(g *gocui.Gui) error {
-        v, err := g.View("main")
-        if err != nil {
-          return err
-        }
-
-
-        v.Clear()
-        fmt.Fprintln(v, line)
-
-        return nil
-      })
-    }
-
-    done <- struct{}{}
-
-  }()
-
-	err := cmd.Start()
-	if err != nil {
-		panic(err)
-	}
-
-	<-done
-
-	err = cmd.Wait()
-	if err != nil {
-		panic(err)
-	}
-}*/
