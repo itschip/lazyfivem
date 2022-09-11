@@ -11,6 +11,7 @@ import (
 )
 
 var mu sync.Mutex
+var Scanner bufio.Scanner
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
   if v == nil || v.Name() == "side" {
@@ -51,6 +52,18 @@ func cursorUp(g *gocui.Gui, v *gocui.View) error {
   return nil
 }
 
+func onSideEnter(g *gocui.Gui, v *gocui.View) error {
+  _, cy := v.Cursor()
+  profile, err := v.Line(cy)
+  if err != nil {
+    return err
+  }
+
+  startFxServer(profile, g)
+
+  return nil
+}
+
 
 func keybinds(g *gocui.Gui) error {
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
@@ -77,9 +90,32 @@ func keybinds(g *gocui.Gui) error {
 		return err
 	}
 
+  // Side enter
+	if err := g.SetKeybinding("side", gocui.KeyEnter, gocui.ModNone, onSideEnter); err != nil {
+		return err
+	}
+
+
+
   return nil
 }
 
+func startFxServer(profile string, g *gocui.Gui) {
+  if profile == "NPWD Server" {
+    cmd := exec.Command("X:/ServerFX/starter.bat")
+    r, _ := cmd.StdoutPipe()
+    cmd.Stderr = cmd.Stdout
+    Scanner = *bufio.NewScanner(r)
+
+    go listen(g, &Scanner)
+
+    err := cmd.Start()
+    if err != nil {
+      panic(err)
+    }
+  }
+
+}
 
 func main() {
 
@@ -102,17 +138,7 @@ func main() {
     log.Panicln(err)
   }
 
-	cmd := exec.Command("X:/ServerFX/starter.bat")
-	r, _ := cmd.StdoutPipe()
-	cmd.Stderr = cmd.Stdout
-	scanner := bufio.NewScanner(r)
 
-  go listen(g, scanner)
-	
-  err = cmd.Start()
-	if err != nil {
-		panic(err)
-	}
 
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
 		log.Panicln(err)
