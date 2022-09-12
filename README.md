@@ -2,7 +2,7 @@
 A simple CUI for running any FiveM server and executing commands.
 
 ## Install
-Download/clone the repo, and inside `cmd/lazyfivem`, run `go install`. It will install `lazyfivem` to the PATH, 
+Download/clone the repo, and inside `cmd/lazyfivem`, run `go install .`. It will install `lazyfivem` to the PATH, 
 and you can run `lazyfivem` in any terminal.
 
 ## Mappings
