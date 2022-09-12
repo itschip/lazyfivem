@@ -38,7 +38,6 @@ func layout(g *gocui.Gui) error {
 		v.Wrap = true
 
 		fmt.Fprintln(v, "")
-
 	}
 
 	if c, err := g.SetView("command", int(0.2*float32(maxX)), maxY-4, maxX-1, maxY-1); err != nil {

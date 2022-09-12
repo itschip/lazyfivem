@@ -10,16 +10,20 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
-var mu sync.Mutex
-var Scanner bufio.Scanner
-var CfxCmd *exec.Cmd
-var Writer io.WriteCloser
+var (
+  mu sync.Mutex
+  Scanner bufio.Scanner
+  CfxCmd *exec.Cmd
+  Writer io.WriteCloser
+
+  ServerName = ""
+  ServerPath = ""
+)
 
 func main() {
-
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
-		log.Panicln(err)
+    log.Panicln(err)
 	}
 
 	defer g.Close()
