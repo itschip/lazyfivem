@@ -26,6 +26,8 @@ NPWDServer: "X:/ServerFX/starter.bat"
 QBCore Server: "X:/qbcoreServer/starter.bat"
 ```
 
+Then, just run `lazyfivem` in any terminal.
+
 
 ## Mappings
 * **TAB** - Moves cursor between the sidebar and command exec view
