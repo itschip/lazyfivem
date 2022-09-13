@@ -1,0 +1,35 @@
+builds:
+  main: ./cmd/lazyfivem
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - freebsd
+    - windows
+    - darwin
+    - linux
+  goarch:
+    - amd64
+    - arm
+    - arm64
+    - 386
+
+archives:
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+    linux: Tux
+  format_overrides:
+    - goos: windows
+      format: zip
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+
+brews:
+  tap:
+    owner: itschip
+    name: homebrew-lazyfivem
