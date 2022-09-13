@@ -49,3 +49,8 @@ brews:
     # conflicts:
     #   - svn
     #   - bash
+
+scoop:
+  bucket:
+    owner: itschip
+    name: scoop-bucket
