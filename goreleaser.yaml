@@ -22,14 +22,10 @@ archives:
   format_overrides:
     - goos: windows
       format: zip
+
 checksum:
   name_template: "checksums.txt"
 snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
-
-brews:
-  tap:
-    owner: itschip
-    name: homebrew-lazyfivem
