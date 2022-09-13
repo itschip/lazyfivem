@@ -16,7 +16,7 @@ scoop install itschip/lazyfivem
 Create a folder called `.lazyfivem` and a file inside called `config.yaml` at the very root of your computer.
 Example:
 ```
-mkdir C:/.lazyfivem
+mkdir $HOME/.lazyfivem
 # Then create config.yaml inside
 ```
 
