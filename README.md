@@ -6,10 +6,10 @@ A simple CUI for running any FiveM server and executing commands.
 ### Windows (scoop)
 ```
 # Add the extras bucket
-scoop bucket add extras
+scoop bucket add itschip https://github.com/itschip/scoop-bucket.git
 
 # Install lazyfivem
-scoop install lazyfivem
+scoop install itschip/lazyfivem
 ```
 
 ### Adding servers
