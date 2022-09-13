@@ -1,9 +1,31 @@
-# lazyfivem - WIP
+# lazyfivem
 A simple CUI for running any FiveM server and executing commands.
 
 ## Install
-Download/clone the repo, and inside `cmd/lazyfivem`, run `go install .`. It will install `lazyfivem` to the PATH, 
-and you can run `lazyfivem` in any terminal.
+
+### Windows (scoop)
+```
+# Add the extras bucket
+scoop bucket add extras
+
+# Install lazyfivem
+scoop install lazyfivem
+```
+
+### Adding servers
+Create a folder called `.lazyfivem` and a file inside called `config.yaml` at the very root of your computer.
+Example:
+```
+mkdir C:/.lazyfivem
+# Then create config.yaml inside
+```
+
+You can then add servers to `config.yaml` like this
+```yml
+NPWDServer: "X:/ServerFX/starter.bat"
+QBCore Server: "X:/qbcoreServer/starter.bat"
+```
+
 
 ## Mappings
 * **TAB** - Moves cursor between the sidebar and command exec view
