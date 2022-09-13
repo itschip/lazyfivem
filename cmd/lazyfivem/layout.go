@@ -19,9 +19,9 @@ func layout(g *gocui.Gui) error {
 		s.SelFgColor = gocui.ColorGreen
 		s.Highlight = true
 
-		fmt.Fprintln(s, "NPWD Server")
-		fmt.Fprintln(s, "ESX Server")
-		fmt.Fprintln(s, "QB Server")
+    for key := range Servers {
+      fmt.Fprintln(s, key)
+    }
 
 		if _, err := g.SetCurrentView("side"); err != nil {
 			return err

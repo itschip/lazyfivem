@@ -18,15 +18,20 @@ var (
 
   ServerName = ""
   ServerPath = ""
+
+  Servers = make(map[string]string)
 )
 
 func main() {
+  getConfigValues()
+  getAllServers()
+
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
     log.Panicln(err)
 	}
 
-	defer g.Close()
+  defer g.Close()
 
   g.Cursor = true
 

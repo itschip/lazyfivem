@@ -31,20 +31,19 @@ func updateFxServer(g *gocui.Gui, line string) {
 }
 
 func startFxServer(profile string, g *gocui.Gui) {
-	if profile == "NPWD Server" {
-		CfxCmd = exec.Command("X:/ServerFX/starter.bat")
-		Writer, _ = CfxCmd.StdinPipe()
+  path := Servers[profile]
+  CfxCmd = exec.Command(path)
+  Writer, _ = CfxCmd.StdinPipe()
 
-		r, _ := CfxCmd.StdoutPipe()
+  r, _ := CfxCmd.StdoutPipe()
 
-		CfxCmd.Stderr = CfxCmd.Stdout
-		Scanner = *bufio.NewScanner(r)
+  CfxCmd.Stderr = CfxCmd.Stdout
+  Scanner = *bufio.NewScanner(r)
 
-		go listen(g, &Scanner)
+  go listen(g, &Scanner)
 
-		err := CfxCmd.Start()
-		if err != nil {
-			panic(err)
-		}
-	}
+  err := CfxCmd.Start()
+  if err != nil {
+    panic(err)
+  }
 }
