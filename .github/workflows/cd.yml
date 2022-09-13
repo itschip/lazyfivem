@@ -42,5 +42,5 @@ jobs:
       - name: Bump Homebrew formula
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
-          token: ${{secrets.GITHUB_API_TOKEN}}
-          formula: lazygit
+          token: ${{secrets.GORELEASER_TOKEN}}
+          formula: lazyfivem
