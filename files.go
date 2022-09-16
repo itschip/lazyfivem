@@ -12,8 +12,7 @@ func getConfigValues() {
   viper.SetConfigType("yaml")
   // Win
   viper.AddConfigPath("$HOME/.lazyfivem/")
-  // Linux
-  viper.AddConfigPath("etc/lazyfivem/")
+  viper.AddConfigPath("~/.lazyfivem/")
 
   err := viper.ReadInConfig()
   if err != nil {

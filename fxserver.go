@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os/exec"
+	"runtime"
 
 	"github.com/jroimartin/gocui"
 )
@@ -32,7 +33,13 @@ func updateFxServer(g *gocui.Gui, line string) {
 
 func startFxServer(profile string, g *gocui.Gui) {
   path := Servers[profile]
-  CfxCmd = exec.Command(path)
+  os := runtime.GOOS
+  switch os {
+    case "windows":
+      CfxCmd = exec.Command(path)
+    case "linux":
+      CfxCmd = exec.Command("bash", "-c", path)
+  }
   Writer, _ = CfxCmd.StdinPipe()
 
   r, _ := CfxCmd.StdoutPipe()
