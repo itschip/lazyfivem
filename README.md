@@ -12,6 +12,14 @@ scoop bucket add itschip https://github.com/itschip/scoop-bucket.git
 scoop install itschip/lazyfivem
 ```
 
+### Linux
+```
+curl -Lo lazyfivem.tar.gz https://github.com/itschip/lazyfivem/releases/download/1.0.1/lazyfivem_1.0.1_Linux_32-bit.tar.gz
+```
+```
+sudo tar xf lazyfivem.tar.gz -C /usr/local/bin lazyfivem
+```
+
 ### Adding servers
 Create a folder called `.lazyfivem` and a file inside called `config.yaml` at the very root of your computer.
 Example:
@@ -20,10 +28,10 @@ mkdir $HOME/.lazyfivem
 # Then create config.yaml inside
 ```
 
-You can then add servers to `config.yaml` like this
+You can then add servers to `config.yaml` like this (example)
 ```yml
-NPWDServer: "X:/ServerFX/starter.bat"
-QBCore Server: "X:/qbcoreServer/starter.bat"
+Windows Server: "X:/ServerFX/starter.bat"
+Linux Server: "cd ~/FXServer/server-data && ~/FXServer/server/run.sh +exec server.cfg"
 ```
 
 Then, just run `lazyfivem` in any terminal.
