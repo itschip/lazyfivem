@@ -18,7 +18,6 @@ func nextView(g *gocui.Gui, v *gocui.View) error {
 	return err
 }
 
-
 func cursorDown(g *gocui.Gui, v *gocui.View) error {
 	if v != nil {
 		cx, cy := v.Cursor()
@@ -54,20 +53,20 @@ func onSideEnter(g *gocui.Gui, v *gocui.View) error {
 		return err
 	}
 
-  go func() {
-    g.Update(func(g *gocui.Gui) error {
-      v, err := g.View(StatusView)
-      if err != nil {
-        return err
-      }
+	go func() {
+		g.Update(func(g *gocui.Gui) error {
+			v, err := g.View(StatusView)
+			if err != nil {
+				return err
+			}
 
-      v.Clear()
-      fmt.Fprintln(v, "Server running")
-      v.FgColor = gocui.ColorGreen
+			v.Clear()
+			fmt.Fprintln(v, "Server running")
+			v.FgColor = gocui.ColorGreen
 
-      return nil
-    })
-  }()
+			return nil
+		})
+	}()
 
 	startFxServer(profile, g)
 
@@ -81,24 +80,23 @@ func executeCommand(g *gocui.Gui, v *gocui.View) error {
 		log.Fatal(err)
 	}
 
-  if v.Buffer() ==  "quit" {
-    io.WriteString(Writer, v.Buffer())
-    v.Clear()
-    vM, _ := g.View(FXServerView)
-    vM.Clear()
-    g.Update(func(g *gocui.Gui) error {
-      return nil
-    })
-    g.SetCurrentView(ServersView)
+	if v.Buffer() == "quit" {
+		io.WriteString(Writer, v.Buffer())
+		v.Clear()
+		vM, _ := g.View(FXServerView)
+		vM.Clear()
+		g.Update(func(g *gocui.Gui) error {
+			return nil
+		})
+		g.SetCurrentView(ServersView)
 
-    return nil
-  }
+		return nil
+	}
 
 	if v.Buffer() != "" {
 		io.WriteString(Writer, v.Buffer())
 	}
-  
- 
+
 	v.Clear()
 	v.SetCursor(0, 0)
 
@@ -110,81 +108,79 @@ func executeCommand(g *gocui.Gui, v *gocui.View) error {
 }
 
 func saveNewProfile(g *gocui.Gui, v *gocui.View) error {
-  var err error 
-  v.Rewind()
-  if err != nil {
-    log.Fatal(err)
-  }
+	var err error
+	v.Rewind()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-  if v.Buffer() != "" {
-    ServerPath = v.Buffer()
+	if v.Buffer() != "" {
+		ServerPath = v.Buffer()
 
-    err = g.DeleteView("profile_path")
-    if err != nil {
-      return err
-    }
-  }
+		err = g.DeleteView("profile_path")
+		if err != nil {
+			return err
+		}
+	}
 
-  if _, err := g.SetCurrentView(ServersView); err != nil {
-    return err
-  }
-  return nil
+	if _, err := g.SetCurrentView(ServersView); err != nil {
+		return err
+	}
+	return nil
 }
 
 func newProfileNameView(g *gocui.Gui, v *gocui.View) error {
-  maxX, maxY := g.Size()
+	maxX, maxY := g.Size()
 
-  if vp_n, err := g.SetView("profile_name", maxX/2-30, maxY/2, maxX/2+30, maxY/2+2);  err != nil {
-    if err != gocui.ErrUnknownView {
-      return err
-    }
+	if vp_n, err := g.SetView("profile_name", maxX/2-30, maxY/2, maxX/2+30, maxY/2+2); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
 
-    vp_n.Title = "Add server name - Enter to continue | Abort with q "
-    vp_n.BgColor = gocui.ColorBlack
-    vp_n.Editable = true
-  }
+		vp_n.Title = "Add server name - Enter to continue | Abort with q "
+		vp_n.BgColor = gocui.ColorBlack
+		vp_n.Editable = true
+	}
 
+	if _, err := g.SetCurrentView("profile_name"); err != nil {
+		return err
+	}
 
-  if _, err := g.SetCurrentView("profile_name"); err != nil {
-    return err
-  }
-
-
-  return nil
+	return nil
 }
 
 func newProfilePathView(g *gocui.Gui, v *gocui.View) error {
-  var err error 
-  v.Rewind()
-  if err != nil {
-    log.Fatal(err)
-  }
+	var err error
+	v.Rewind()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if v.Buffer() != "" {
-    ServerName = v.Buffer()
-  }
+		ServerName = v.Buffer()
+	}
 
-  maxX, maxY := g.Size()
+	maxX, maxY := g.Size()
 
-  if vp_p, err := g.SetView("profile_path", maxX/2-30, maxY/2, maxX/2+30, maxY/2+2);  err != nil {
-    if err != gocui.ErrUnknownView {
-      return err
-    }
+	if vp_p, err := g.SetView("profile_path", maxX/2-30, maxY/2, maxX/2+30, maxY/2+2); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
 
-    vp_p.Title = "Add startup path - Enter to finish | Abort with q "
-    vp_p.BgColor = gocui.ColorBlack
-    vp_p.Editable = true
-  }
+		vp_p.Title = "Add startup path - Enter to finish | Abort with q "
+		vp_p.BgColor = gocui.ColorBlack
+		vp_p.Editable = true
+	}
 
-  if _, err := g.SetCurrentView("profile_path"); err != nil {
-    return err
-  }
+	if _, err := g.SetCurrentView("profile_path"); err != nil {
+		return err
+	}
 
-  // delete profile_name view
-  err = g.DeleteView("profile_name")
-  if err != nil {
-    return err
-  }
-  
-  return nil
+	// delete profile_name view
+	err = g.DeleteView("profile_name")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

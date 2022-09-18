@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"github.com/jroimartin/gocui"
 )
 
@@ -40,20 +39,19 @@ func keybinds(g *gocui.Gui) error {
 		return err
 	}
 
+	/*  I need to add some better functionality for this. Config files for now.
 
-  /*  I need to add some better functionality for this. Config files for now.
+	if err := g.SetKeybinding("side", 'n', gocui.ModNone, newProfileNameView); err != nil {
+	  return err
+	}
 
-  if err := g.SetKeybinding("side", 'n', gocui.ModNone, newProfileNameView); err != nil {
-    return err
-  }
+	if err := g.SetKeybinding("profile_name", gocui.KeyEnter, gocui.ModNone, newProfilePathView); err != nil {
+	  return err
+	}
 
-  if err := g.SetKeybinding("profile_name", gocui.KeyEnter, gocui.ModNone, newProfilePathView); err != nil {
-    return err
-  }
-
-  if err := g.SetKeybinding("profile_path", gocui.KeyEnter, gocui.ModNone, saveNewProfile); err != nil {
-    return err
-  } */
+	if err := g.SetKeybinding("profile_path", gocui.KeyEnter, gocui.ModNone, saveNewProfile); err != nil {
+	  return err
+	} */
 
 	return nil
 }
