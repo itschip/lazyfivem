@@ -14,7 +14,7 @@ scoop install itschip/lazyfivem
 
 ### Linux
 ```
-curl -Lo lazyfivem.tar.gz https://github.com/itschip/lazyfivem/releases/download/1.0.1/lazyfivem_1.0.1_Linux_32-bit.tar.gz
+curl -Lo lazyfivem.tar.gz https://github.com/itschip/lazyfivem/releases/download/1.0.2/lazyfivem_1.0.2_Linux_32-bit.tar.gz
 ```
 ```
 sudo tar xf lazyfivem.tar.gz -C /usr/local/bin lazyfivem
