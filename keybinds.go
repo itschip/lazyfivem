@@ -11,32 +11,32 @@ func keybinds(g *gocui.Gui) error {
 	}
 
 	// Next View
-	if err := g.SetKeybinding("side", gocui.KeyTab, gocui.ModNone, nextView); err != nil {
+	if err := g.SetKeybinding(ServersView, gocui.KeyTab, gocui.ModNone, nextView); err != nil {
 		return err
 	}
 
 	// Next View
-	if err := g.SetKeybinding("command", gocui.KeyTab, gocui.ModNone, nextView); err != nil {
+	if err := g.SetKeybinding(FXServerCmdView, gocui.KeyTab, gocui.ModNone, nextView); err != nil {
 		return err
 	}
 
 	// Cursor up
-	if err := g.SetKeybinding("side", gocui.KeyArrowUp, gocui.ModNone, cursorUp); err != nil {
+	if err := g.SetKeybinding(ServersView, gocui.KeyArrowUp, gocui.ModNone, cursorUp); err != nil {
 		return err
 	}
 
 	// Cursor down
-	if err := g.SetKeybinding("side", gocui.KeyArrowDown, gocui.ModNone, cursorDown); err != nil {
+	if err := g.SetKeybinding(ServersView, gocui.KeyArrowDown, gocui.ModNone, cursorDown); err != nil {
 		return err
 	}
 
 	// Side enter
-	if err := g.SetKeybinding("side", gocui.KeyEnter, gocui.ModNone, onSideEnter); err != nil {
+	if err := g.SetKeybinding(ServersView, gocui.KeyEnter, gocui.ModNone, onSideEnter); err != nil {
 		return err
 	}
 
 	// Command enter
-	if err := g.SetKeybinding("command", gocui.KeyEnter, gocui.ModNone, executeCommand); err != nil {
+	if err := g.SetKeybinding(FXServerCmdView, gocui.KeyEnter, gocui.ModNone, executeCommand); err != nil {
 		return err
 	}
 

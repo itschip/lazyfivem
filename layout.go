@@ -6,29 +6,61 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
+const (
+  StatusView = "status"
+  SidebarView = "side"
+  ServersView = "servers"
+  FXServerView = "main"
+  FXServerCmdView = "command"
+)
+
 func layout(g *gocui.Gui) error {
 
 	maxX, maxY := g.Size()
-	if s, err := g.SetView("side", 0, 0, maxX/4, maxY-1); err != nil {
-		if err != gocui.ErrUnknownView {
+
+  if statusView, err := g.SetView(StatusView, 1, 0, maxX/6+6, 2); err != nil {
+    if err != gocui.ErrUnknownView {
+      return err
+    }
+
+    statusView.Title = "Status"
+    statusView.FgColor = gocui.ColorRed
+    fmt.Fprintln(statusView, "No server running")
+  }
+
+	if s, err := g.SetView(SidebarView, 1, 4, maxX/4, maxY-1); err != nil {
+		if err != gocui.ErrUnknownView{
 			return err
 		}
 
-		s.Title = "Servers"
-		s.FgColor = gocui.ColorWhite
-		s.SelFgColor = gocui.ColorGreen
-		s.Highlight = true
+    s.Title = "Sidebar"
 
-    for key := range Servers {
-      fmt.Fprintln(s, key)
+    //sideX, sideY := s.Size()
+    if serversView, err := g.SetView(ServersView, 1, 4, maxX/6+6, 8); err != nil {
+      if err != gocui.ErrUnknownView{
+        return err
+      }
+
+
+      serversView.FgColor = gocui.ColorWhite
+      serversView.SelFgColor = gocui.ColorGreen
+      serversView.Highlight = true
+      serversView.Title = "Servers"
+      g.Cursor = true
+
+
+      for key := range Servers {
+        fmt.Fprintln(serversView, key)
+      }
     }
 
-		if _, err := g.SetCurrentView("side"); err != nil {
+		if _, err := g.SetCurrentView(ServersView); err != nil {
 			return err
 		}
 	}
 
-	if v, err := g.SetView("main", int(0.2*float32(maxX)), 0, maxX-1, maxY-1); err != nil {
+
+	if v, err := g.SetView(FXServerView, int(0.2*float32(maxX)), 0, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -40,7 +72,7 @@ func layout(g *gocui.Gui) error {
 		fmt.Fprintln(v, "")
 	}
 
-	if c, err := g.SetView("command", int(0.2*float32(maxX)), maxY-4, maxX-1, maxY-1); err != nil {
+	if c, err := g.SetView(FXServerCmdView, int(0.2*float32(maxX)), maxY-4, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}

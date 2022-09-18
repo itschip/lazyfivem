@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 
@@ -8,12 +9,12 @@ import (
 )
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
-	if v == nil || v.Name() == "side" {
-		_, err := g.SetCurrentView("command")
+	if v == nil || v.Name() == ServersView {
+		_, err := g.SetCurrentView(FXServerCmdView)
 		return err
 	}
 
-	_, err := g.SetCurrentView("side")
+	_, err := g.SetCurrentView(ServersView)
 	return err
 }
 
@@ -53,6 +54,21 @@ func onSideEnter(g *gocui.Gui, v *gocui.View) error {
 		return err
 	}
 
+  go func() {
+    g.Update(func(g *gocui.Gui) error {
+      v, err := g.View(StatusView)
+      if err != nil {
+        return err
+      }
+
+      v.Clear()
+      fmt.Fprintln(v, "Server running")
+      v.FgColor = gocui.ColorGreen
+
+      return nil
+    })
+  }()
+
 	startFxServer(profile, g)
 
 	return nil
@@ -65,10 +81,24 @@ func executeCommand(g *gocui.Gui, v *gocui.View) error {
 		log.Fatal(err)
 	}
 
+  if v.Buffer() ==  "quit" {
+    io.WriteString(Writer, v.Buffer())
+    v.Clear()
+    vM, _ := g.View(FXServerView)
+    vM.Clear()
+    g.Update(func(g *gocui.Gui) error {
+      return nil
+    })
+    g.SetCurrentView(ServersView)
+
+    return nil
+  }
+
 	if v.Buffer() != "" {
 		io.WriteString(Writer, v.Buffer())
 	}
-
+  
+ 
 	v.Clear()
 	v.SetCursor(0, 0)
 
@@ -95,7 +125,7 @@ func saveNewProfile(g *gocui.Gui, v *gocui.View) error {
     }
   }
 
-  if _, err := g.SetCurrentView("side"); err != nil {
+  if _, err := g.SetCurrentView(ServersView); err != nil {
     return err
   }
   return nil
