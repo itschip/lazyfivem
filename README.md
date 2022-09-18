@@ -41,7 +41,8 @@ Then, just run `lazyfivem` in any terminal.
 * **TAB** - Moves cursor between the sidebar and command exec view
 * **ENTER** - Starts the selected when you're in the sidebar view, and executes the command when you're in the command exec view.
 
-![image](https://user-images.githubusercontent.com/59088889/189553625-afa0926d-a16d-4be3-8023-fb20f4e8f95c.png)
+### Example of Prisma in FiveM failing.
+![vmplayer_lqEQwqQhEj](https://user-images.githubusercontent.com/59088889/190914038-df755ce0-7485-4c7b-95fb-7af33a2cb686.png)
 
 
 ## Toggleterm
