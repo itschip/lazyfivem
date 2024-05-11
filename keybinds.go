@@ -5,6 +5,7 @@ import (
 )
 
 func keybinds(g *gocui.Gui) error {
+	// Quit
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		return err
 	}

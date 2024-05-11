@@ -2,27 +2,21 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os/user"
+	"os"
 	"strings"
 
 	"github.com/spf13/viper"
 )
 
 func getConfigValues() {
-	usr, err := user.Current()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	home_dir := usr.HomeDir
-
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	// Win
-	viper.AddConfigPath(home_dir + "/.lazyfivem/")
-	// viper.AddConfigPath(os.ExpandEnv("~/.lazyfivem/"))
+
+	user_config_dir, err := os.UserConfigDir()
+
+	// Should work on any OS
+	viper.AddConfigPath(os.ExpandEnv("$LAZYFIVEM_CONFIG_HOME"))
+	viper.AddConfigPath(user_config_dir + "/.lazyfivem/")
 
 	err = viper.ReadInConfig()
 

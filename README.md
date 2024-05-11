@@ -21,7 +21,10 @@ sudo tar xf lazyfivem.tar.gz -C /usr/local/bin lazyfivem
 ```
 
 ### Adding servers
-Create a folder called `.lazyfivem` and a file inside called `config.yaml` at the very root of your computer.
+Create a `config.yaml` to:
+- Linux: ~/.lazyfivem/
+- Windows: $HOME:
+Create a folder called `.lazyfivem` and a file inside called `config.yaml`.
 Example:
 ```
 mkdir $HOME/.lazyfivem
