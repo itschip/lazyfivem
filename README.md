@@ -25,8 +25,18 @@ Go to [the latest release page](https://github.com/itschip/lazyfivem/releases/la
 
 ## Configuration
 Create a `config.yaml` to:
-- Linux: `~/.config/lazyfivem/`
+
+- Unix-based OS:
+    - if `$XDG_CONFIG_HOME` is specified, then: `$XDG_CONFIG_HOME/lazyfivem/`
+    - otherwise `$HOME/.config/lazyfivem/`
+
+- Darwin: `$HOME/Library/Application Support/lazyfivem/`
+
+- Plan 9: `$home/lib`
+
 - Windows: `C:\Users\USERNAME\AppData\Roaming\lazyfivem\` aka. `%APPDATA%\lazyfivem\`
+
+- [Read more](https://pkg.go.dev/os#UserConfigDir)
 
 Example:
 - Windows:
