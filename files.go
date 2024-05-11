@@ -12,13 +12,13 @@ func getConfigValues() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 
-	user_config_dir, err := os.UserConfigDir()
+	user_config_dir, _ := os.UserConfigDir()
 
 	// Should work on any OS
 	viper.AddConfigPath(os.ExpandEnv("$LAZYFIVEM_CONFIG_HOME"))
-	viper.AddConfigPath(user_config_dir + "/.lazyfivem/")
+	viper.AddConfigPath(user_config_dir + "/lazyfivem/")
 
-	err = viper.ReadInConfig()
+	err := viper.ReadInConfig()
 
 	if err != nil {
 		panic(fmt.Errorf("Failed to load lazyfivem config: %w", err))
