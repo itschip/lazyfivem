@@ -94,6 +94,7 @@ Run `lazyfivem` in any terminal.
 * **ENTER** - Starts the selected server in the sidebar, and executes a command in the command line.
 * **UP/DOWN ARROW** - Scrolls up/down in the sidebar
 * **LEFT/RIGHT ARROW** - Moves cursor left/right in the command exec lin
+* **Ctrl-C** - Quit program
 
 ### Example of Prisma in FiveM failing.
 ![vmplayer_lqEQwqQhEj](https://user-images.githubusercontent.com/59088889/190914038-df755ce0-7485-4c7b-95fb-7af33a2cb686.png)
